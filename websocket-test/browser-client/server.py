@@ -1,25 +1,27 @@
-# -*- coding: utf-8 -*-
-#test on python 3.4 ,python of lower version  has different module organization.
 import http.server
-from http.server import HTTPServer, BaseHTTPRequestHandler
 import socketserver
 
 PORT = 8080
 
-Handler = http.server.SimpleHTTPRequestHandler
-
-Handler.extensions_map={
+class HttpRequestHandler(http.server.SimpleHTTPRequestHandler):
+    extensions_map = {
+        '': 'application/octet-stream',
         '.manifest': 'text/cache-manifest',
-	'.html': 'text/html',
+        '.html': 'text/html',
         '.png': 'image/png',
-	'.jpg': 'image/jpg',
-	'.svg':	'image/svg+xml',
-	'.css':	'text/css',
-	'.js':	'application/x-javascript',
-	'': 'application/octet-stream', # Default
+        '.jpg': 'image/jpg',
+        '.svg':	'image/svg+xml',
+        '.css':	'text/css',
+        '.js':'application/x-javascript',
+        '.wasm': 'application/wasm',
+        '.json': 'application/json',
+        '.xml': 'application/xml',
     }
 
-httpd = socketserver.TCPServer(("", PORT), Handler)
+httpd = socketserver.TCPServer(("localhost", PORT), HttpRequestHandler)
 
-print("serving at port", PORT)
-httpd.serve_forever()
+try:
+    print(f"serving at http://localhost:{PORT}")
+    httpd.serve_forever()
+except KeyboardInterrupt:
+    pass
