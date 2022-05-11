@@ -1,4 +1,17 @@
 
+## HOW TO RUN
+
+Backend
+```
+$ cd /path/to/server/
+$ python .\app.py
+```
+
+Backend
+```
+$ cd /path/to/client/
+$ python .\server.py
+```
 
 ## TODO
 Convert to use FastAPI websockets
